@@ -1,0 +1,9 @@
+---
+- name: Install Essential Packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - git-core
+    - libtool #REQUIRED FOR YARA 2.0
+    - automake #REQUIRED FOR YARA 2.0, aclocal error!
+    - bison #REQUIRED FOR YARA 2.0, yacc error!
+    - flex #REQUIRED FOR YARA 2.0, flex error!

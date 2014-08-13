@@ -1,0 +1,10 @@
+---
+- name: Deploys the whole software stack for a CRITs server
+  hosts: development
+  user: vagrant
+  sudo: yes
+
+  roles:
+    - system
+    - crits_deps
+    - crits

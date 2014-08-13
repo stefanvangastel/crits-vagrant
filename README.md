@@ -9,6 +9,8 @@ Vagrant file and Ansible playbook for CRITs installation (https://crits.github.i
 * Install Vagrant
 * Install Ansible
 
+###Let's run this puppy
+
 Clone this repo, cd into directory and run:
 
 ```

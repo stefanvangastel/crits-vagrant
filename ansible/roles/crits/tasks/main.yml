@@ -39,7 +39,7 @@
 # DEVELOPMENT / TEST:
 
 - name: Removing Apache2 to prevent port in use
-  apt: name=apache2 state=absent
+  command: apt-get -y purge apache2*
 
 - name: Start development server (NO SSL)
   command: python manage.py runserver 192.168.13.40:80 chdir=/data/crits

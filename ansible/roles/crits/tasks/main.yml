@@ -43,3 +43,9 @@
 
 - name: Start development server (NO SSL)
   command: python manage.py runserver 192.168.13.40:80 chdir=/data/crits
+
+- name: Add Cronjob for mapreduces
+  cron: name="crits mapreduces" minute="0" job="cd /data/crits/ && /usr/bin/python manage.py mapreduces"
+
+- name: Add Cronjob for notifications
+  cron: name="crits notifications" minute="0" job="cd /data/crits/ && /usr/bin/python manage.py generate_notifications"

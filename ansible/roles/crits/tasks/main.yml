@@ -31,7 +31,7 @@
   register: admin_password
 
 - name: ADMIN TMP PASSWORD
-  debug: var=ps.stdout_lines
+  debug: var=admin_password.stdout_lines
 
 - name: Set allowed hosts
   command: python manage.py setconfig allowed_hosts "192.168.13.40" chdir=/data/crits
@@ -42,7 +42,7 @@
   command: apt-get -y purge apache2*
 
 - name: Start development server (NO SSL)
-  command: python manage.py runserver 192.168.13.40:80 chdir=/data/crits
+  command: python manage.py runserver 192.168.13.40:80 & chdir=/data/crits
 
 - name: Add Cronjob for mapreduces
   cron: name="crits mapreduces" minute="0" job="cd /data/crits/ && /usr/bin/python manage.py mapreduces"

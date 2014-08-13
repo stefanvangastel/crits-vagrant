@@ -1,0 +1,21 @@
+---
+- name: Clone CRITs dependencies
+  command: git clone https://github.com/stefanvangastel/crits_dependencies.git /vagrant/crits_deps creates=/vagrant/crits_deps
+
+- name: Apt-get update before installing crits_deps
+  apt: update_cache=yes
+
+- name: Change directory and install rest of dependencies
+  shell: ./install_dependencies.sh chdir=/vagrant/crits_deps
+
+- name: Install PIL (Image module for Python)
+  command: easy_install PIL
+
+- name: Clone CRITs repo
+  command: git clone https://github.com/stefanvangastel/crits.git /vagrant/crits creates=/vagrant/crits #UNTIL MERGE REQUEST MET
+
+- name: Create MongoDB database directory
+  command: mkdir -p /data/db
+
+- name: Change directory and start MongoDB
+  shell: ./mongod_start.sh chdir=/vagrant/crits/contrib/mongo/UMA

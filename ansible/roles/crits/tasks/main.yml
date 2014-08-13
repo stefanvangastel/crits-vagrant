@@ -1,0 +1,45 @@
+---
+- name: Create CRITs user
+  user: name=crits
+
+- name: Add Apache user (www-data) to CRITs group
+  command: usermod -a -G crits www-data
+
+- name: Create CRITs directory structure
+  command: mkdir -p /data/crits creates=/data/crits
+
+- name: Move (copy for test-sake) crits code
+  command: cp -pfr /vagrant/crits /data/ creates=/data/crits/logs
+
+- name: Change group permissions of logs
+  command: chgrp -R crits /data/crits/logs
+
+- name: Create log file
+  command: touch /data/crits/logs/crits.log creates=/data/crits/logs/crits.log
+
+- name: Set permissions on log file
+  command: chmod 664 /data/crits/logs/crits.log
+
+- name: Create database config file
+  template: src=database.py dest=/data/crits/crits/config/database.py
+
+- name: Create default MongoDB collection
+  command: python manage.py create_default_collections chdir=/data/crits
+
+- name: Add the first user
+  command: python manage.py users -a -A -u admin -e foo@bar.com chdir=/data/crits
+  register: admin_password
+
+- name: ADMIN TMP PASSWORD
+  debug: var=ps.stdout_lines
+
+- name: Set allowed hosts
+  command: python manage.py setconfig allowed_hosts "192.168.13.40" chdir=/data/crits
+
+# DEVELOPMENT / TEST:
+
+- name: Removing Apache2 to prevent port in use
+  apt: name=apache2 state=absent
+
+- name: Start development server (NO SSL)
+  command: python manage.py runserver 192.168.13.40:80 chdir=/data/crits

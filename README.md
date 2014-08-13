@@ -3,7 +3,7 @@ Crits-vagrant
 
 Vagrant file and Ansible playbook for CRITs installation (https://crits.github.io/)
 
-== Requirements == 
+###Requirements
 * Have a Vagrant / VirtualBox compatible system
 * Install VirtualBox
 * Install Vagrant

@@ -27,11 +27,9 @@
   command: python manage.py create_default_collections chdir=/data/crits
 
 - name: Add the first user
-  command: python manage.py users -a -A -u admin -e foo@bar.com chdir=/data/crits
-  register: admin_password
+  command: python manage.py users -a -A -u admin -e foo@bar.com > /vagrant/admin_password.txt chdir=/data/crits
 
-- name: ADMIN TMP PASSWORD
-  debug: var=admin_password.stdout_lines
+- debug: msg=ADMIN TMP PASSWORD IS IN admin_password.txt
 
 - name: Set allowed hosts
   command: python manage.py setconfig allowed_hosts "192.168.13.40" chdir=/data/crits
@@ -41,8 +39,14 @@
 - name: Removing Apache2 to prevent port in use
   command: apt-get -y purge apache2*
 
+- name: Move in server run script
+  template: src=runserver.sh dest=/data/crits/runserver.sh
+
+- name: Change script permissions
+  command: chmod +x runserver.sh chdir=/data/crits
+
 - name: Start development server (NO SSL)
-  command: python manage.py runserver 192.168.13.40:80 & chdir=/data/crits
+  command: ./runserver.sh chdir=/data/crits
 
 - name: Add Cronjob for mapreduces
   cron: name="crits mapreduces" minute="0" job="cd /data/crits/ && /usr/bin/python manage.py mapreduces"

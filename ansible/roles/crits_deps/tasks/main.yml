@@ -12,7 +12,7 @@
   command: easy_install PIL
 
 - name: Clone CRITs repo
-  command: git clone https://github.com/stefanvangastel/crits.git /vagrant/crits creates=/vagrant/crits #UNTIL MERGE REQUEST MET
+  command: git clone https://github.com/crits/crits.git /vagrant/crits creates=/vagrant/crits #UNTIL MERGE REQUEST MET
 
 - name: Create MongoDB database directory
   command: mkdir -p /data/db
